@@ -207,4 +207,254 @@ function loadBlogPosts() {
     if (!container) return;
     
     container.innerHTML = blogPosts.map(post => `
-        <div
+        <div class="blog-card">
+            <div class="blog-image" style="background-image: url('images/${post.image}')"></div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span>${post.date}</span>
+                    <span>${post.readTime}</span>
+                </div>
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-excerpt">${post.excerpt}</p>
+                <div class="blog-meta">
+                    <span>By ${post.author}</span>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Sample Team Members
+function loadTeamMembers() {
+    const teamMembers = [
+        {
+            name: "Sarah Chen",
+            role: "President",
+            bio: "Computer Science major passionate about AI and machine learning. Leading the society towards innovation.",
+            image: "sarah-chen.jpg",
+            linkedin: "https://linkedin.com/in/sarahchen"
+        },
+        {
+            name: "Alex Rodriguez",
+            role: "Vice President",
+            bio: "Software Engineering student specializing in web development and cloud technologies.",
+            image: "alex-rodriguez.jpg",
+            linkedin: "https://linkedin.com/in/alexrodriguez"
+        },
+        {
+            name: "Maya Patel",
+            role: "Events Coordinator",
+            bio: "Data Science enthusiast with experience in organizing tech events and workshops.",
+            image: "maya-patel.jpg",
+            linkedin: "https://linkedin.com/in/mayapatel"
+        },
+        {
+            name: "James Kim",
+            role: "Technical Lead",
+            bio: "Full-stack developer and open-source contributor. Passionate about teaching and mentorship.",
+            image: "james-kim.jpg",
+            linkedin: "https://linkedin.com/in/jameskim"
+        }
+    ];
+    
+    const container = document.querySelector('.team-grid');
+    if (!container) return;
+    
+    container.innerHTML = teamMembers.map(member => `
+        <div class="team-card">
+            <div class="team-photo" style="background-image: url('images/${member.image}')"></div>
+            <h3 class="team-name">${member.name}</h3>
+            <div class="team-role">${member.role}</div>
+            <p class="team-bio">${member.bio}</p>
+            <div class="team-social">
+                <a href="${member.linkedin}" class="social-link" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Sample Projects
+function loadProjects() {
+    const projects = [
+        {
+            title: "AI-Powered Study Assistant",
+            description: "Machine learning model that helps students create personalized study schedules and track progress.",
+            technologies: ["Python", "TensorFlow", "Flask"],
+            demoLink: "#",
+            codeLink: "#"
+        },
+        {
+            title: "Campus Navigation App",
+            description: "Mobile application with AR features for campus navigation and event discovery.",
+            technologies: ["React Native", "Node.js", "ARCore"],
+            demoLink: "#",
+            codeLink: "#"
+        },
+        {
+            title: "Smart Attendance System",
+            description: "Facial recognition system for automated attendance tracking in classrooms.",
+            technologies: ["Python", "OpenCV", "MongoDB"],
+            demoLink: "#",
+            codeLink: "#"
+        }
+    ];
+    
+    const container = document.querySelector('.projects-grid');
+    if (!container) return;
+    
+    container.innerHTML = projects.map(project => `
+        <div class="project-card">
+            <div class="project-preview">
+                <span>${project.title}</span>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-description">${project.description}</p>
+                <div class="project-technologies">
+                    <strong>Tech Stack:</strong> ${project.technologies.join(', ')}
+                </div>
+                <div class="project-links">
+                    <a href="${project.demoLink}" class="project-link">Live Demo</a>
+                    <a href="${project.codeLink}" class="project-link">View Code</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Sample Gallery
+function loadGallery() {
+    const galleryItems = [
+        { image: "event1.jpg", caption: "Hackathon 2024" },
+        { image: "workshop1.jpg", caption: "AI Workshop" },
+        { image: "meeting1.jpg", caption: "Weekly Meeting" },
+        { image: "event2.jpg", caption: "Tech Talk" },
+        { image: "workshop2.jpg", caption: "Web Dev Bootcamp" },
+        { image: "social1.jpg", caption: "Networking Event" }
+    ];
+    
+    const container = document.querySelector('.gallery-grid');
+    if (!container) return;
+    
+    container.innerHTML = galleryItems.map(item => `
+        <div class="gallery-item">
+            <img src="images/${item.image}" alt="${item.caption}" class="gallery-image">
+            <div class="gallery-caption">${item.caption}</div>
+        </div>
+    `).join('');
+}
+
+// Event Listeners Setup
+function setupEventListeners() {
+    // Scroll animations
+    window.addEventListener('scroll', handleScrollAnimations);
+    
+    // Form validation
+    setupFormValidation();
+    
+    // Lazy loading for images
+    setupLazyLoading();
+}
+
+// Scroll Animations
+function handleScrollAnimations() {
+    const elements = document.querySelectorAll('.about-card, .event-card, .blog-card, .team-card, .project-card');
+    
+    elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight - 100) {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }
+    });
+}
+
+// Form Validation
+function setupFormValidation() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const inputs = this.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    });
+}
+
+// Lazy Loading
+function setupLazyLoading() {
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+}
+
+// Utility Functions
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Export functionality (for code download)
+function exportWebsite() {
+    const websiteData = {
+        html: document.documentElement.outerHTML,
+        css: getCSSContent(),
+        js: getJSContent()
+    };
+    
+    // Create downloadable files
+    createDownloadableFiles(websiteData);
+}
+
+function getCSSContent() {
+    // This would need to be implemented based on your setup
+    return "/* CSS content would be generated here */";
+}
+
+function getJSContent() {
+    // This would need to be implemented based on your setup
+    return "/* JS content would be generated here */";
+}
+
+function createDownloadableFiles(data) {
+    // Implementation for creating zip file with all assets
+    console.log('Export functionality ready - implement file creation logic');
+}
+
